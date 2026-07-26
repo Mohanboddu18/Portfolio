@@ -15,10 +15,21 @@ export default function PdfModal({ isOpen, title, url, onClose }) {
   const getPreviewUrl = (rawUrl) => {
     const cleanUrl = (rawUrl || '').trim();
     if (!cleanUrl) return '';
-    if (!isPdf(cleanUrl)) return cleanUrl;
-    const [base, hashPart] = cleanUrl.split('#');
+
+    let fullUrl = cleanUrl;
+    if (!cleanUrl.startsWith('http://') && !cleanUrl.startsWith('https://')) {
+      const origin = window.location.origin;
+      const pathname = window.location.pathname.replace(/\/$/, '');
+      const base = `${origin}${pathname}/`;
+      const path = cleanUrl.replace(/^\.\//, '').replace(/^\//, '');
+      fullUrl = base + path;
+    }
+
+    if (!isPdf(fullUrl)) return fullUrl;
+
+    const [baseUrl, hashPart] = fullUrl.split('#');
     const nextHash = hashPart ? `${hashPart}&${pdfEmbedParams}` : pdfEmbedParams;
-    return `${base}#${nextHash}`;
+    return `${baseUrl}#${nextHash}`;
   };
 
   useEffect(() => {
