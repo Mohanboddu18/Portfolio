@@ -18,11 +18,11 @@ export default function PdfModal({ isOpen, title, url, onClose }) {
 
     let fullUrl = cleanUrl;
     if (!cleanUrl.startsWith('http://') && !cleanUrl.startsWith('https://')) {
-      const origin = window.location.origin;
-      const pathname = window.location.pathname.replace(/\/$/, '');
-      const base = `${origin}${pathname}/`;
-      const path = cleanUrl.replace(/^\.\//, '').replace(/^\//, '');
-      fullUrl = base + path;
+      try {
+        fullUrl = new URL(cleanUrl, window.location.href).href;
+      } catch (e) {
+        fullUrl = cleanUrl;
+      }
     }
 
     if (!isPdf(fullUrl)) return fullUrl;

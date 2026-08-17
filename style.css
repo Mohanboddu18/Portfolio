@@ -1263,17 +1263,12 @@ section {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 40px;
-}
-
-.proj-1 {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-}
-.proj-2 {
-  background: linear-gradient(135deg, #f093fb, #f5576c);
-}
-.proj-3 {
-  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  font-size: 16px;
+  font-weight: 600;
+  color: #f8fafc;
+  padding: 16px;
+  text-align: center;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
 }
 
 .project-body {
