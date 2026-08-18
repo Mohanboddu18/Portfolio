@@ -113,7 +113,7 @@ export default function App() {
           <Skills />
           <Projects />
           <Certifications onOpenModal={handleOpenModal} />
-          <Contact />
+          <Contact onOpenModal={handleOpenModal} />
           <Footer />
         </main>
       </div>
