@@ -1,27 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import Loader from './components/Loader';
 import AmbientBackground from './components/AmbientBackground';
-import Sidebar from './components/Sidebar';
-import MobileNav from './components/MobileNav';
+import ScrollProgress from './components/ScrollProgress';
+import CustomCursor from './components/CustomCursor';
+import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
+import Projects from './components/Projects';
 import Experience from './components/Experience';
 import Skills from './components/Skills';
-import Projects from './components/Projects';
 import Certifications from './components/Certifications';
 import Contact from './components/Contact';
+import CtaBanner from './components/CtaBanner';
 import Footer from './components/Footer';
 import PdfModal from './components/PdfModal';
 
 export default function App() {
-  const [theme, setTheme] = useState(() => {
-    const saved = localStorage.getItem('theme');
-    if (saved) return saved;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light';
-  });
-
   const [activeSection, setActiveSection] = useState('home');
   const [modalState, setModalState] = useState({
     isOpen: false,
@@ -29,15 +23,10 @@ export default function App() {
     url: '',
   });
 
-  // Apply theme to documentElement
+  // Default theme is dark navy luxury aesthetic matching demo images
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }, []);
 
   // Section Observer for Active Navigation Link
   useEffect(() => {
@@ -50,7 +39,7 @@ export default function App() {
           }
         });
       },
-      { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
+      { rootMargin: '-30% 0px -50% 0px', threshold: 0 }
     );
 
     sections.forEach((sec) => observer.observe(sec));
@@ -64,12 +53,12 @@ export default function App() {
       (entries) => {
         entries.forEach((entry, i) => {
           if (entry.isIntersecting) {
-            setTimeout(() => entry.target.classList.add('visible'), i * 80);
+            setTimeout(() => entry.target.classList.add('visible'), i * 60);
             obs.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.08 }
     );
 
     els.forEach((el) => obs.observe(el));
@@ -92,31 +81,21 @@ export default function App() {
     <>
       <Loader />
       <AmbientBackground />
+      <ScrollProgress />
+      <CustomCursor />
+      <Header activeSection={activeSection} onOpenModal={handleOpenModal} />
 
-      <MobileNav
-        activeSection={activeSection}
-        theme={theme}
-        toggleTheme={toggleTheme}
-      />
-
-      <div className="layout">
-        <Sidebar
-          activeSection={activeSection}
-          theme={theme}
-          toggleTheme={toggleTheme}
-        />
-
-        <main className="main-content">
-          <Hero />
-          <About onOpenModal={handleOpenModal} />
-          <Experience />
-          <Skills />
-          <Projects />
-          <Certifications onOpenModal={handleOpenModal} />
-          <Contact onOpenModal={handleOpenModal} />
-          <Footer />
-        </main>
-      </div>
+      <main className="main-app-content">
+        <Hero />
+        <About onOpenModal={handleOpenModal} />
+        <Projects />
+        <Experience />
+        <Skills />
+        <Certifications onOpenModal={handleOpenModal} />
+        <Contact onOpenModal={handleOpenModal} />
+        <CtaBanner />
+        <Footer />
+      </main>
 
       <PdfModal
         isOpen={modalState.isOpen}

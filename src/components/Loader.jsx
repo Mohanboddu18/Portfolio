@@ -6,45 +6,23 @@ export default function Loader() {
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    const criticalAssets = [
-      './assets/IMG_7926.png',
-      './assets/Mohan_Java_Developer.pdf'
-    ];
+    let start = 0;
+    const duration = 1400;
+    const intervalTime = 20;
+    const step = 100 / (duration / intervalTime);
 
-    let loadedCount = 0;
-    const totalAssets = criticalAssets.length;
-
-    if (totalAssets === 0) {
-      setFadeOut(true);
-      setTimeout(() => setHidden(true), 600);
-      return;
-    }
-
-    const markSettled = () => {
-      loadedCount += 1;
-      const pct = Math.round((loadedCount / totalAssets) * 100);
-      setProgress(pct);
-      if (loadedCount >= totalAssets) {
-        setFadeOut(true);
-        setTimeout(() => setHidden(true), 600);
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= 100) {
+        start = 100;
+        clearInterval(timer);
+        setTimeout(() => setFadeOut(true), 250);
+        setTimeout(() => setHidden(true), 850);
       }
-    };
+      setProgress(Math.floor(start));
+    }, intervalTime);
 
-    criticalAssets.forEach((src) => {
-      if (src.endsWith('.pdf')) {
-        // PDF fallback timer / loader
-        const timer = setTimeout(markSettled, 1000);
-        return () => clearTimeout(timer);
-      } else {
-        const img = new Image();
-        img.onload = markSettled;
-        img.onerror = markSettled;
-        img.src = src;
-        if (img.complete) {
-          markSettled();
-        }
-      }
-    });
+    return () => clearInterval(timer);
   }, []);
 
   if (hidden) return null;
@@ -52,16 +30,24 @@ export default function Loader() {
   return (
     <div className={`loader-overlay ${fadeOut ? 'fadeOut' : ''}`} id="loader">
       <div className="loader-container">
-        <div className="loader-spinner"></div>
-        <p className="loader-text">
-          Loading <span className="loader-progress">{progress}</span>%
-        </p>
-        <div className="loader-bar">
-          <div
-            className="loader-progress-bar"
-            style={{ width: `${progress}%` }}
-          ></div>
+        {/* Large Minimalist Serif Name matching Image 2 */}
+        <h1 className="loader-serif-name">MOHAN BODDU</h1>
+
+        {/* Thin Progress Line + 3-Digit Counter Row matching Image 2 */}
+        <div className="loader-progress-row">
+          <div className="loader-line-track">
+            <div
+              className="loader-line-fill"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          <span className="loader-counter">
+            {String(progress).padStart(3, '0')}
+          </span>
         </div>
+
+        {/* PORTFOLIO Sub-tag matching Image 2 */}
+        <div className="loader-sub-tag">PORTFOLIO</div>
       </div>
     </div>
   );

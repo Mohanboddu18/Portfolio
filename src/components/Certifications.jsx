@@ -40,56 +40,52 @@ export default function Certifications({ onOpenModal }) {
   ];
 
   return (
-    <section id="certifications">
-      <div className="section-header reveal">
-        <span className="section-label">My Achievements</span>
-        <h2 className="section-title">
-          My <span>Certifications</span>
-        </h2>
-        <div className="section-line"></div>
-      </div>
+    <section id="certifications" className="certifications-section">
+      <div className="section-container">
+        <div className="section-header-pill reveal">
+          <span className="section-mono-tag">VERIFIED LEARNING</span>
+          <h2 className="section-serif-title">
+            Certifications &amp; <span className="title-blue-script">badges</span>
+          </h2>
+          <p className="section-subtext">
+            Credentials from Salesforce, EduSkills, APEX, Infosys SpringBoard and AWS — each one links to the verifiable original.
+          </p>
+        </div>
 
-      <div className="certs-grid">
-        {certsData.map((cert, idx) => (
-          <div key={idx} className="cert-card reveal">
-            <div className="cert-icon">
-              <svg viewBox="0 0 24 24">
-                <circle cx="12" cy="8" r="6" />
-                <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" />
-              </svg>
-            </div>
-            <div className="cert-title">{cert.title}</div>
-            <div className="cert-meta">
-              <span className="cert-issuer">{cert.issuer}</span>
-              <span className="cert-date">{cert.date}</span>
-            </div>
-            <div className="cert-actions">
-              <button
-                className="cert-btn"
-                onClick={() => onOpenModal(cert.title, cert.pdf)}
-              >
-                <svg viewBox="0 0 24 24">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                  <polyline points="14 2 14 8 20 8" />
+        <div className="certs-cards-grid reveal">
+          {certsData.map((cert, idx) => (
+            <div key={idx} className="cert-card">
+              <div className="cert-card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="8" r="6" />
+                  <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" />
                 </svg>
-                Preview
-              </button>
-              <a
-                className="cert-btn cert-btn-secondary"
-                href={cert.drive}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <svg viewBox="0 0 24 24">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                  <polyline points="15 3 21 3 21 9" />
-                  <line x1="10" y1="14" x2="21" y2="3" />
-                </svg>
-                Original Link
-              </a>
+              </div>
+              <h3 className="cert-card-title">{cert.title}</h3>
+              <div className="cert-card-meta">
+                {cert.issuer} · {cert.date}
+              </div>
+              <div className="cert-card-actions">
+                {cert.drive && (
+                  <a
+                    href={cert.drive}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="cert-action-link"
+                  >
+                    ↗ Verify
+                  </a>
+                )}
+                <button
+                  className="cert-action-btn"
+                  onClick={() => onOpenModal(cert.title, cert.pdf)}
+                >
+                  Preview
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );
