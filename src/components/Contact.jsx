@@ -168,7 +168,11 @@ export default function Contact({ onOpenModal }) {
 
             {submitted ? (
               <div className="contact-success-alert">
-                ✓ Message sent successfully! Delivered straight to <strong>mohanboddu18@gmail.com</strong>.
+                <p style={{ fontSize: '1.05rem', fontWeight: 600 }}>✓ <strong>Message sent successfully!</strong></p>
+                <p style={{ marginTop: '8px' }}>
+                  Thank you for reaching out. We’ve received your message and will respond to you <strong>within 24 hours</strong>.
+                </p>
+                <p style={{ marginTop: '6px', opacity: 0.9 }}>Please check your inbox for our reply.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="contact-form">
